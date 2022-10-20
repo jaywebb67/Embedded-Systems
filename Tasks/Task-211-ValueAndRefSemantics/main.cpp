@@ -49,7 +49,7 @@ int main() {
     nice_ptr = {5.0, 6.0};
     printf("p = %f + j%f\n", p.real, p.imag);
     printf("q = %f + j%f\n", q.real, q.imag);      
-    
+    printf("\nPredicted all values printed correctly\n");
     while (true) {
     }
 }

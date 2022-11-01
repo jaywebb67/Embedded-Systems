@@ -39,7 +39,7 @@ ComplexNumber_C complexSubtract(const ComplexNumber_C a, const ComplexNumber_C b
     return y;
 }
 
-ComplexNumber_C complexMagnitude(const ComplexNumber_C m) {
+double complexMagnitude(const ComplexNumber_C m) {
     
     double result;
     result = sqrt(m.real*m.real + m.imag*m.imag);

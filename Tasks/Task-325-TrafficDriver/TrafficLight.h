@@ -12,28 +12,38 @@ class TrafficLight
 {
     public:
         typedef enum {STOP, READY, GO, WARNING} LIGHT_STATE;
+        typedef enum {SET_1, SET_2} TRAFFIC_SET;
 
     private:
         DigitalOut redLED;
         DigitalOut yellowLED;
         DigitalOut greenLED;
+    
         Ticker t;
         LIGHT_STATE State;
-
+        TRAFFIC_SET setNo;
+    
+        double flash_ms;
+    
         void yellowFlashISR();
-        void flashYellow(bool flash);
+        void flashYellow(bool flash,double flashTime);
         void updateOutput();
 
     public:
         //Constructor
-        TrafficLight(PinName redPin = TRAF_RED1_PIN, PinName yellowPin = TRAF_YEL1_PIN, PinName greenPin=TRAF_GRN1_PIN); 
+        TrafficLight(TRAFFIC_SET trafficSet = setNo); 
 
+    PinName redPin = TRAF_RED1_PIN, PinName yellowPin = TRAF_YEL1_PIN, PinName greenPin=TRAF_GRN1_PIN
+    
         //Destructor
         ~TrafficLight();
 
         //Advance the traffic lights to the next state
         LIGHT_STATE nextState();
-
+        void STOP();
+        void setFlashSpeed(double flash_ms);
+        double getFlashSpeed();
+    
 };
 
 

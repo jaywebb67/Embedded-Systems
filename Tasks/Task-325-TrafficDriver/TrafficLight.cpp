@@ -1,10 +1,15 @@
 #include "TrafficLight.h"
 
 //Contructor
-TrafficLight::TrafficLight(PinName redPin, PinName yellowPin, PinName greenPin) 
-                                                        : redLED(redPin), yellowLED(yellowPin), greenLED(greenPin)
+TrafficLight::TrafficLight(TRAFFIC_SET trafficSet)
+                                                    : setNo(trafficSet)
 {
     // These objects are already initialised in the member initialisation list above
+    select(trafficSet)
+      case SET_1,1:
+        redLED
+        PinName redPin, PinName yellowPin, PinName greenPin) 
+                                                        : redLED(redPin), yellowLED(yellowPin), greenLED(greenPin)
     redLED = 1;
     yellowLED = 0;
     greenLED = 0;
@@ -26,11 +31,11 @@ void TrafficLight::yellowFlashISR() {
 }
 
 // Private member function to switch flasher on or off
-void TrafficLight::flashYellow(bool flash) {
+void TrafficLight::flashYellow(bool flash,double flashTime) {
     t.detach(); //Turn off ticker
     if (flash) {
         //Turn on ticker ..... Hmmm, interrupts!
-        t.attach(callback(this, &TrafficLight::yellowFlashISR), 200ms);
+        t.attach(callback(this, &TrafficLight::yellowFlashISR), (flashTime)*1ms);
     }
 }
 
@@ -40,26 +45,26 @@ void TrafficLight::updateOutput()
     switch (State)
     {
         case STOP:
-            flashYellow(false);
+            flashYellow(false,flash_ms);
             redLED = 1;
             yellowLED = 0;
             greenLED = 0;
             break;
         case READY:
-            flashYellow(false);
+            flashYellow(false,flash_ms);
             redLED = 1;
             yellowLED = 1;
             greenLED = 0;
             break;
         case GO:
-            flashYellow(false);
+            flashYellow(false,flash_ms);
             redLED = 0;
             yellowLED = 0;
             greenLED = 1;
             break;
         case WARNING:
             redLED = 0;
-            flashYellow(true);
+            flashYellow(true,flash_ms);
             greenLED = 0;
             break;                
     }       
@@ -91,3 +96,17 @@ TrafficLight::LIGHT_STATE TrafficLight::nextState()
     //Return the current state (for information)
     return State; 
 } 
+
+void TrafficLight::STOP(){
+  State = STOP;
+  updateOutput();
+}
+
+
+void TrafficLight::setFlashSpeed(double flashSpeed){
+  flash_ms = flashSpeed; 
+}
+
+double TrafficLight::getFlashSpeed(){
+  return flash_ms; 
+}

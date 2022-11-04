@@ -43,6 +43,10 @@ public:
         return _real;
     }
 
+    void setValue(DoubleNumber u){
+        _real = u.getValue();
+    }
+
     string asString() {
         return to_string(_real);
     }

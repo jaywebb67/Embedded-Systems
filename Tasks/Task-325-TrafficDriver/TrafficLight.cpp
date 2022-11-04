@@ -5,16 +5,14 @@ TrafficLight::TrafficLight(TRAFFIC_SET trafficSet)
                                                     : setNo(trafficSet)
 {
     // These objects are already initialised in the member initialisation list above
-    select(trafficSet)
-      case SET_1,1:
-        redLED
-        PinName redPin, PinName yellowPin, PinName greenPin) 
-                                                        : redLED(redPin), yellowLED(yellowPin), greenLED(greenPin)
+    setLightPins();
+       // PinName redPin, PinName yellowPin, PinName greenPin) 
+                                             //           : redLED(redPin), yellowLED(yellowPin), greenLED(greenPin)
     redLED = 1;
     yellowLED = 0;
     greenLED = 0;
     // Timer off
-    flashYellow(false);
+    flashYellow(false,flash_ms);
 }
 
 //Destructor
@@ -97,7 +95,7 @@ TrafficLight::LIGHT_STATE TrafficLight::nextState()
     return State; 
 } 
 
-void TrafficLight::STOP(){
+void TrafficLight::stop(){
   State = STOP;
   updateOutput();
 }
@@ -109,4 +107,29 @@ void TrafficLight::setFlashSpeed(double flashSpeed){
 
 double TrafficLight::getFlashSpeed(){
   return flash_ms; 
+}
+
+void TrafficLight::setLightPins(){
+
+    switch (setNo){
+
+        case SET_1:
+            redLED(PinName::TRAF_RED1_PIN,PinDirection::PIN_OUTPUT, PinMode::OpenDrainNoPull, 1);
+            greenLED(TRAF_GRN1_PIN);
+            yellowLED(TRAF_YEL1_PIN);
+            break;
+
+        default:
+            
+            break;
+
+
+
+    }
+
+
+
+
+
+
 }

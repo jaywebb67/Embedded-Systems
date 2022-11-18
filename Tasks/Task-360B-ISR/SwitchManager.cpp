@@ -6,13 +6,14 @@ volatile uint32_t SwitchManager::count = 0;
 // Member functions
 
 void SwitchManager::waitForRising() {
-  SwitchManager::count++;
+    CriticalSectionLock::enable();
+    SwitchManager::count++;
+    CriticalSectionLock::disable();
+    // Turn off interrupt
+    switchInterrupt.rise(NULL);
 
-  // Turn off interrupt
-  switchInterrupt.rise(NULL);
-
-  // Turn on timer
-  t.attach(callback(this, &SwitchManager::waitForStabilityRising), 50ms);
+    // Turn on timer
+    t.attach(callback(this, &SwitchManager::waitForStabilityRising), 50ms);
 }
 
 void SwitchManager::waitForStabilityRising() {

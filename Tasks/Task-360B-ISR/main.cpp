@@ -11,7 +11,7 @@
 
 
 
-
+Ticker YellowTick;
 
     
 int main() {
@@ -22,7 +22,9 @@ int main() {
     //Interrupt controlled green led using BTN2    
     SwitchManager sm2(BTN2_PIN, TRAF_GRN1_PIN);    
     
-    flashing YellowLED(TRAF_YEL1_PIN,500ms);
+    flashing YellowLED(TRAF_YEL1_PIN);
+
+
     
     //Now loop forever
     while(1) { 
@@ -30,6 +32,3 @@ int main() {
         printf("count=%u\n",SwitchManager::getCount());
     };
 };
-
-
-

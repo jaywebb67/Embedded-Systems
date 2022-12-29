@@ -9,10 +9,7 @@ class flashing {
 
     private:
         DigitalOut  _ledPin;
-        Ticker yellowTick;
-
-
-    private:
+        Ticker YellowTick;
 
         void toggleYellowISR(){
             _ledPin = !_ledPin;
@@ -23,14 +20,15 @@ class flashing {
         //Constructor turning on LED when object is created
         flashing(PinName ledPin) : _ledPin(ledPin) {
                 //Simple ticker for the yellow LED
-                yellowTick.attach(&flashing::toggleYellowISR,500ms);
+                YellowTick.attach(callback(this,&flashing::toggleYellowISR),500ms);
         }
 
         //Destructor, ensuring led is switched off when out of scope
         ~flashing() {
           _ledPin = 0;
-          yellowTick.detach();
+          YellowTick.detach();
         }
+
  
 };
 
